@@ -2,18 +2,21 @@
    Panel de leads — demostración · WhiteMoon
    TODO ES MOCK. Sin backend, sin base de datos, sin envíos.
    El estado vive en memoria y se pierde al recargar.
-   Nombres y teléfonos inventados.
+   Nombres, teléfonos y llamadas programadas inventados.
+   La agenda no avisa a nadie: no hay calendario ni recordatorios.
    ============================================================ */
 
 const SERVICES = ['Servicio 1', 'Servicio 2', 'Servicio 3'];
 
-/* Fichas de ejemplo */
+/* Fichas de ejemplo.
+   `cita` = [días desde hoy, hora, minuto], o un número = horas desde ahora
+   (así la primera cita de la demo siempre queda por delante, sea la hora que sea). */
 const SEED = [
-  { name: 'Juan Ejemplo',     phone: '600 000 011', service: 0, time: 'Hoy 09:42',  status: 'nuevo' },
+  { name: 'Juan Ejemplo',     phone: '600 000 011', service: 0, time: 'Hoy 09:42',  status: 'nuevo',      cita: 2 },
   { name: 'Lucía Ficticia',   phone: '600 000 012', service: 2, time: 'Hoy 10:15',  status: 'nuevo' },
   { name: 'Marta Ejemplo',    phone: '600 000 002', service: 1, time: 'Ayer 18:30', status: 'contactado' },
-  { name: 'Pedro Muestra',    phone: '600 000 021', service: 0, time: 'Ayer 17:05', status: 'contactado' },
-  { name: 'Ana Demostración', phone: '600 000 022', service: 2, time: 'Ayer 12:20', status: 'contactado' },
+  { name: 'Pedro Muestra',    phone: '600 000 021', service: 0, time: 'Ayer 17:05', status: 'contactado', cita: [2, 12, 0] },
+  { name: 'Ana Demostración', phone: '600 000 022', service: 2, time: 'Ayer 12:20', status: 'contactado', cita: [1, 9, 30] },
   { name: 'Carlos Prueba',    phone: '600 000 031', service: 1, time: 'Lun 11:00',  status: 'cerrado' },
   { name: 'Elena Ejemplo',    phone: '600 000 032', service: 0, time: 'Lun 09:30',  status: 'cerrado' }
 ];
@@ -35,6 +38,7 @@ const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 let leads = [];
 let uid = 0;
 let extraIdx = 0;
+let editingId = null;   /* ficha con el selector de fecha abierto */
 
 /* ---------------------------------------------------------
    1. Login cosmético (sin autenticación real)
@@ -46,12 +50,74 @@ $('#gateForm').addEventListener('submit', e => {
 });
 
 /* ---------------------------------------------------------
-   2. Datos
+   2. Fechas
+   --------------------------------------------------------- */
+
+/* 'YYYY-MM-DDTHH:MM' en hora local, que es lo que aceptan los inputs */
+function toLocalISO(d) {
+  const p = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) +
+         'T' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+
+function offsetISO(days, hour, minute) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  d.setHours(hour, minute, 0, 0);
+  return toLocalISO(d);
+}
+
+/* Dentro de N horas, redondeado a la media hora siguiente.
+   Si cae fuera del horario de atención, salta a las 10:00 del día siguiente:
+   así la demo enseña una cita creíble se abra a la hora que se abra. */
+function enHorasISO(horas) {
+  const d = new Date();
+  d.setHours(d.getHours() + horas, d.getMinutes() < 30 ? 30 : 60, 0, 0);
+  if (d.getHours() < 9 || d.getHours() >= 19) {
+    d.setDate(d.getDate() + (d.getHours() >= 19 ? 1 : 0));
+    d.setHours(10, 0, 0, 0);
+  }
+  return toLocalISO(d);
+}
+
+/* Devuelve etiquetas legibles para una cita */
+function whenParts(iso) {
+  const d = new Date(iso);
+  const hora = d.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const dia0 = new Date(d);
+  dia0.setHours(0, 0, 0, 0);
+  const dias = Math.round((dia0 - hoy) / 86400000);
+
+  let dia;
+  if (dias === 0) dia = 'hoy';
+  else if (dias === 1) dia = 'mañana';
+  else if (dias === -1) dia = 'ayer';
+  else dia = d.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+
+  return { dia, hora, pasada: d.getTime() < Date.now() };
+}
+
+/* ---------------------------------------------------------
+   3. Datos
    --------------------------------------------------------- */
 function seedLeads() {
   uid = 0;
   extraIdx = 0;
-  leads = SEED.map(l => ({ ...l, id: 'l' + (++uid), fresh: false }));
+  editingId = null;
+  leads = SEED.map(l => {
+    const { cita, ...resto } = l;
+    return {
+      ...resto,
+      id: 'l' + (++uid),
+      fresh: false,
+      when: !cita ? null
+          : typeof cita === 'number' ? enHorasISO(cita)
+          : offsetISO(cita[0], cita[1], cita[2])
+    };
+  });
 }
 
 function addLead() {
@@ -62,7 +128,8 @@ function addLead() {
     id: 'l' + (++uid),
     time: 'Hoy ' + new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
     status: 'nuevo',
-    fresh: true
+    fresh: true,
+    when: null
   });
   render();
 }
@@ -85,14 +152,84 @@ function setStatus(id, status) {
   render();
 }
 
+function setWhen(id, iso) {
+  const lead = leads.find(l => l.id === id);
+  if (!lead) return;
+  lead.when = iso;
+  editingId = null;
+  render();
+}
+
 /* ---------------------------------------------------------
-   3. Pintado
+   4. Ficha
    --------------------------------------------------------- */
+function buildSchedEditor(lead) {
+  const box = document.createElement('form');
+  box.className = 'sched';
+
+  /* valor de partida: la cita actual o mañana a las 10:00 */
+  const inicial = lead.when || offsetISO(1, 10, 0);
+  const [fechaIni, horaIni] = inicial.split('T');
+
+  const row = document.createElement('div');
+  row.className = 'sched__row';
+
+  const fecha = document.createElement('input');
+  fecha.type = 'date';
+  fecha.className = 'sched__in';
+  fecha.value = fechaIni;
+  fecha.setAttribute('aria-label', 'Fecha de la llamada');
+
+  const hora = document.createElement('input');
+  hora.type = 'time';
+  hora.className = 'sched__in';
+  hora.value = horaIni;
+  hora.setAttribute('aria-label', 'Hora de la llamada');
+
+  row.append(fecha, hora);
+
+  const err = document.createElement('p');
+  err.className = 'sched__err';
+  err.hidden = true;
+
+  const acciones = document.createElement('div');
+  acciones.className = 'sched__acts';
+
+  const guardar = document.createElement('button');
+  guardar.type = 'submit';
+  guardar.className = 'card__btn card__btn--go';
+  guardar.textContent = 'Guardar';
+
+  const cancelar = document.createElement('button');
+  cancelar.type = 'button';
+  cancelar.className = 'card__btn';
+  cancelar.textContent = 'Cancelar';
+  cancelar.addEventListener('click', () => { editingId = null; render(); });
+
+  acciones.append(guardar, cancelar);
+
+  box.addEventListener('submit', ev => {
+    ev.preventDefault();
+    if (!fecha.value || !hora.value) {
+      err.textContent = 'Indica fecha y hora.';
+      err.hidden = false;
+      return;
+    }
+    setWhen(lead.id, fecha.value + 'T' + hora.value);
+  });
+
+  box.append(row, err, acciones);
+  return box;
+}
+
 function buildCard(lead) {
   const idx = STATES.indexOf(lead.status);
+  const editando = editingId === lead.id;
+
   const card = document.createElement('article');
   card.className = 'card' + (lead.fresh ? ' is-fresh' : '');
-  card.draggable = true;
+  /* mientras se edita la fecha no se arrastra: estorbaría a los campos */
+  card.draggable = !editando;
   card.dataset.id = lead.id;
 
   if (lead.fresh) {
@@ -120,6 +257,18 @@ function buildCard(lead) {
   tel.className = 'card__tel';
   tel.textContent = lead.phone;
 
+  card.append(top, svc, tel);
+
+  /* insignia de la llamada programada */
+  if (lead.when) {
+    const { dia, hora, pasada } = whenParts(lead.when);
+    const cita = document.createElement('p');
+    cita.className = 'card__when' + (pasada ? ' is-past' : '');
+    cita.textContent = 'Llamada · ' + dia + ' ' + hora;
+    card.appendChild(cita);
+  }
+
+  /* mover entre columnas */
   const nav = document.createElement('div');
   nav.className = 'card__nav';
 
@@ -138,7 +287,33 @@ function buildCard(lead) {
   next.addEventListener('click', () => move(lead.id, 1));
 
   nav.append(prev, next);
-  card.append(top, svc, tel, nav);
+  card.appendChild(nav);
+
+  /* programar la llamada */
+  if (editando) {
+    card.appendChild(buildSchedEditor(lead));
+  } else {
+    const fila = document.createElement('div');
+    fila.className = 'card__nav card__nav--sched';
+
+    const programar = document.createElement('button');
+    programar.type = 'button';
+    programar.className = 'card__btn card__btn--go';
+    programar.textContent = lead.when ? 'Cambiar llamada' : 'Programar llamada';
+    programar.addEventListener('click', () => { editingId = lead.id; render(); });
+    fila.appendChild(programar);
+
+    if (lead.when) {
+      const quitar = document.createElement('button');
+      quitar.type = 'button';
+      quitar.className = 'card__btn';
+      quitar.textContent = 'Quitar';
+      quitar.addEventListener('click', () => setWhen(lead.id, null));
+      fila.appendChild(quitar);
+    }
+
+    card.appendChild(fila);
+  }
 
   card.addEventListener('dragstart', ev => {
     ev.dataTransfer.setData('text/plain', lead.id);
@@ -150,6 +325,80 @@ function buildCard(lead) {
   return card;
 }
 
+/* ---------------------------------------------------------
+   5. Agenda
+   --------------------------------------------------------- */
+function buildAgendaEntry(lead) {
+  const { dia, hora, pasada } = whenParts(lead.when);
+
+  const li = document.createElement('li');
+  li.className = 'ag' + (pasada ? ' is-past' : '');
+
+  const cuando = document.createElement('span');
+  cuando.className = 'ag__when';
+  const d = document.createElement('b');
+  d.textContent = dia;
+  const h = document.createElement('span');
+  h.textContent = hora;
+  cuando.append(d, h);
+
+  const quien = document.createElement('span');
+  quien.className = 'ag__who';
+  const n = document.createElement('b');
+  n.textContent = lead.name;
+  const meta = document.createElement('span');
+  meta.textContent = lead.phone + ' · ' + (SERVICES[lead.service] || 'Otra consulta');
+  quien.append(n, meta);
+
+  const estado = document.createElement('span');
+  estado.className = 'ag__state ag__state--' + lead.status;
+  estado.textContent = LABEL[lead.status];
+
+  const ver = document.createElement('button');
+  ver.type = 'button';
+  ver.className = 'ag__go';
+  ver.textContent = 'Ver ficha';
+  ver.addEventListener('click', () => resaltar(lead.id));
+
+  li.append(cuando, quien, estado, ver);
+  return li;
+}
+
+/* Lleva el foco a la ficha correspondiente y la marca un momento */
+let resaltarTimer = null;
+function resaltar(id) {
+  const card = $('.card[data-id="' + id + '"]');
+  if (!card) return;
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  $$('.card.is-target').forEach(c => c.classList.remove('is-target'));
+  card.classList.add('is-target');
+  clearTimeout(resaltarTimer);
+  resaltarTimer = setTimeout(() => card.classList.remove('is-target'), 2200);
+}
+
+function renderAgenda() {
+  const lista = $('#agendaList');
+  lista.textContent = '';
+
+  const citas = leads
+    .filter(l => l.when)
+    .sort((a, b) => new Date(a.when) - new Date(b.when));
+
+  $('#agendaCount').textContent = citas.length;
+
+  if (!citas.length) {
+    const vacio = document.createElement('li');
+    vacio.className = 'ag__empty';
+    vacio.textContent = 'Sin llamadas programadas. Usa «Programar llamada» en cualquier ficha.';
+    lista.appendChild(vacio);
+    return;
+  }
+  citas.forEach(l => lista.appendChild(buildAgendaEntry(l)));
+}
+
+/* ---------------------------------------------------------
+   6. Pintado general
+   --------------------------------------------------------- */
 function render() {
   STATES.forEach(state => {
     const body = $('[data-drop="' + state + '"]');
@@ -165,10 +414,11 @@ function render() {
     }
     $$('[data-count-' + state + ']').forEach(el => { el.textContent = items.length; });
   });
+  renderAgenda();
 }
 
 /* ---------------------------------------------------------
-   4. Arrastrar y soltar entre columnas
+   7. Arrastrar y soltar entre columnas
    --------------------------------------------------------- */
 $$('.col').forEach(col => {
   const state = col.dataset.col;
@@ -188,13 +438,13 @@ $$('.col').forEach(col => {
 });
 
 /* ---------------------------------------------------------
-   5. Acciones del tablero
+   8. Acciones del tablero
    --------------------------------------------------------- */
 $('#btnNuevo').addEventListener('click', addLead);
 $('#btnReset').addEventListener('click', () => { seedLeads(); render(); });
 
 /* ---------------------------------------------------------
-   6. Arranque
+   9. Arranque
    --------------------------------------------------------- */
 seedLeads();
 render();

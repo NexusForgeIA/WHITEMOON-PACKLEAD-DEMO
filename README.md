@@ -43,6 +43,20 @@ que es la herramienta interna y no la web pública.
 - «Simular nuevo lead» añade una ficha animada en la columna Nuevo, para
   enseñar cómo entra un contacto.
 
+### Agenda de llamadas
+
+Cada ficha lleva un botón **«Programar llamada»** que abre un selector de fecha
+y hora dentro de la propia tarjeta. Al guardar, la ficha muestra la insignia
+`Llamada · [día] [hora]` y la cita entra en el bloque **Agenda de llamadas**,
+ordenado por fecha y hora. Cada entrada tiene un «Ver ficha» que lleva a su
+tarjeta y la resalta un momento.
+
+Las citas pasadas se ven en gris, tanto en la insignia como en la agenda.
+
+**No hay calendario detrás.** Ni Cal.com, ni Google Calendar, ni avisos, ni
+recordatorios: las citas viven en memoria como el resto del panel y se pierden
+al recargar. «Reiniciar demo» las devuelve al estado inicial.
+
 ## Estructura
 
 | Archivo | Contenido |
