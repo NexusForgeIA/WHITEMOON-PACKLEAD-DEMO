@@ -1,0 +1,3 @@
+# Demo comercial del Pack Lead. No debe indexarse.
+User-agent: *
+Disallow: /
