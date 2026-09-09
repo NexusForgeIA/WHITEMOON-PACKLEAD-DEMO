@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Imagen de ejemplo del Servicio 1">
+  <rect width="800" height="600" fill="#efeae1"/>
+  <circle cx="545" cy="235" r="185" fill="#e2dbcd"/>
+  <path d="M0 452c150-58 268-58 400 0s262 66 400 12v136H0Z" fill="#dcd4c4"/>
+  <g fill="none" stroke="#1d6b56" stroke-width="3" opacity=".55">
+    <path d="M118 168h224"/>
+    <path d="M118 214h150"/>
+    <path d="M118 260h186"/>
+  </g>
+  <circle cx="545" cy="235" r="84" fill="none" stroke="#1d6b56" stroke-width="4" opacity=".7"/>
+</svg>
