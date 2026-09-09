@@ -18,14 +18,17 @@ recargar). Todos los nombres y teléfonos son inventados.
 
 ## Landing (`/`)
 
-Estética clara y editorial —Fraunces para los titulares, Sora para el texto—
-pensada para parecer la web real de un cliente, no la de la agencia.
+Identidad WhiteMoon en claro: fondo blanco, morado `#7c4dff` como único acento
+y **Sora** en todo, con contraste de pesos fuerte (200 en los titulares, 600 en
+los acentos). Fotografía abstracta de tecnología, sin personas.
 
 1. **Hero** — titular, subtítulo y CTA al formulario.
 2. **Servicios** — tres genéricos con imagen, título y descripción. Sin precios.
 3. **Cómo funciona** — pasos 01 · 02 · 03 con los números en grande.
 4. **Contacto** — el formulario: nombre y teléfono, con validación. Al enviar
-   muestra un check verde grande y «Datos completados. Ahora te llamamos.»
+   muestra un check grande y «Datos completados. Ahora te llamamos.»
+   El check es **verde** a propósito: es color semántico de éxito, no de marca.
+   Es el único elemento de la página que no es morado.
 5. **Preguntas** — cuatro dudas frecuentes en acordeón.
 
 ## Panel (`/panel/`)
@@ -47,7 +50,7 @@ que es la herramienta interna y no la web pública.
 | `index.html` | Landing completa |
 | `assets/styles.css` | Design system claro, responsive 900 / 620 px |
 | `assets/app.js` | `CONFIG`, validación del formulario, reveal, acordeón |
-| `assets/img/*.svg` | Imágenes de ejemplo, sustituibles por fotos reales |
+| `assets/img/*` | Fotos en WebP con fallback JPG (ver créditos abajo) |
 | `panel/index.html` | Login cosmético + tablero |
 | `panel/panel.css` | Design system dark del panel |
 | `panel/panel.js` | Fichas ficticias, kanban, arrastre |
@@ -58,9 +61,25 @@ que es la herramienta interna y no la web pública.
 
 1. **`assets/app.js` → `CONFIG`**: nombre de marca, zona, horario, teléfono,
    WhatsApp y los tres servicios.
-2. **`assets/styles.css` → `:root`**: los tokens de color y las dos fuentes.
-3. **`assets/img/`**: sustituye los SVG de ejemplo por fotos reales del negocio
-   (mismas proporciones: 4/3 en las tarjetas, 9/10 en el hero).
+2. **`assets/styles.css` → `:root`**: los tokens de color y la fuente.
+3. **`assets/img/`**: sustituye las fotos por las del negocio real, en las
+   mismas proporciones (4/3 en las tarjetas, 9/10 en el hero) y manteniendo
+   los pares `.webp` + `.jpg`. Actualiza el `alt` de cada una en `index.html`.
+
+## Créditos de las fotos
+
+Fotografías de [Unsplash](https://unsplash.com/license) (uso libre, no
+requiere atribución; se acredita por cortesía):
+
+| Archivo | Autoría |
+|---|---|
+| `hero` | Sandro Katalina |
+| `servicio-1` | Milad Fakurian |
+| `servicio-2` | Conny Schneider |
+| `servicio-3` | Milad Fakurian |
+
+Se sirven en WebP con fallback JPG, recortadas al tamaño final y con
+`width`/`height` declarados para evitar saltos de maquetación.
 
 Los textos descriptivos están en `index.html`, redactados en genérico y listos
 para reemplazar.
