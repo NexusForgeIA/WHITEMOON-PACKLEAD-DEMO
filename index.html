@@ -7,10 +7,10 @@
 <meta name="googlebot" content="noindex, nofollow">
 <title>Tu Negocio Local</title>
 <meta name="description" content="Demostración de landing para negocio local. Datos ficticios.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23e9f3ef'/%3E%3Cpath d='M9 17.5l4.5 4.5L23 12' fill='none' stroke='%231d6b56' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f1ecff'/%3E%3Cpath d='M9 17.5l4.5 4.5L23 12' fill='none' stroke='%237c4dff' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
   <div class="wrap nav__inner">
     <a class="brand" href="#top">
       <span class="brand__mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" width="32" height="32"><rect width="32" height="32" rx="8" fill="#e9f3ef"/><path d="M9 17.5l4.5 4.5L23 12" fill="none" stroke="#1d6b56" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 34 34" width="34" height="34"><rect width="34" height="34" rx="9" fill="#f1ecff"/><path d="M9.5 18.5l5 5L25 13" fill="none" stroke="#7c4dff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </span>
       <span class="brand__name" data-brand-name>Tu Negocio Local</span>
     </a>
@@ -66,7 +66,12 @@
       </div>
 
       <figure class="hero__figure">
-        <img src="assets/img/hero.svg" alt="" width="900" height="1080" loading="eager">
+        <picture>
+          <source srcset="assets/img/hero.webp" type="image/webp">
+          <img src="assets/img/hero.jpg" width="900" height="1000"
+               alt="Estructura de vigas iluminada por tubos de neón violeta que forma un túnel triangular en perspectiva"
+               loading="eager" fetchpriority="high" decoding="async">
+        </picture>
       </figure>
     </div>
   </section>
@@ -75,15 +80,22 @@
   <section class="section section--soft" id="servicios">
     <div class="wrap">
       <header class="section__head">
-        <p class="eyebrow"><span class="eyebrow__rule"></span>Servicios</p>
-        <h2>Lo que hacemos</h2>
+        <div>
+          <p class="eyebrow"><span class="eyebrow__rule"></span>Servicios</p>
+          <h2>Lo que <em>hacemos</em></h2>
+        </div>
         <p class="section__lead">Tres formas de ayudarte. Si lo tuyo no encaja del todo, llámanos igualmente y lo vemos.</p>
       </header>
 
       <div class="cards">
         <article class="card" data-reveal style="--i:0">
           <figure class="card__media">
-            <img src="assets/img/servicio-1.svg" alt="" width="800" height="600" loading="lazy">
+            <picture>
+              <source srcset="assets/img/servicio-1.webp" type="image/webp">
+              <img src="assets/img/servicio-1.jpg" width="800" height="600"
+                   alt="Onda abstracta de finas líneas azules y violetas sobre un fondo morado degradado"
+                   loading="lazy" decoding="async">
+            </picture>
           </figure>
           <div class="card__body">
             <h3 data-svc="1">Servicio 1</h3>
@@ -93,7 +105,12 @@
 
         <article class="card" data-reveal style="--i:1">
           <figure class="card__media">
-            <img src="assets/img/servicio-2.svg" alt="" width="800" height="600" loading="lazy">
+            <picture>
+              <source srcset="assets/img/servicio-2.webp" type="image/webp">
+              <img src="assets/img/servicio-2.jpg" width="800" height="600"
+                   alt="Malla tridimensional de nodos y conexiones luminosas sobre fondo azul oscuro"
+                   loading="lazy" decoding="async">
+            </picture>
           </figure>
           <div class="card__body">
             <h3 data-svc="2">Servicio 2</h3>
@@ -103,7 +120,12 @@
 
         <article class="card" data-reveal style="--i:2">
           <figure class="card__media">
-            <img src="assets/img/servicio-3.svg" alt="" width="800" height="600" loading="lazy">
+            <picture>
+              <source srcset="assets/img/servicio-3.webp" type="image/webp">
+              <img src="assets/img/servicio-3.jpg" width="800" height="600"
+                   alt="Trazos curvos de luz violeta formando una figura abstracta sobre fondo negro"
+                   loading="lazy" decoding="async">
+            </picture>
           </figure>
           <div class="card__body">
             <h3 data-svc="3">Servicio 3</h3>
@@ -118,8 +140,11 @@
   <section class="section" id="como">
     <div class="wrap">
       <header class="section__head">
-        <p class="eyebrow"><span class="eyebrow__rule"></span>Cómo funciona</p>
-        <h2>Tres pasos y ya está</h2>
+        <div>
+          <p class="eyebrow"><span class="eyebrow__rule"></span>Cómo funciona</p>
+          <h2>Tres pasos <em>y ya está</em></h2>
+        </div>
+        <p class="section__lead">Sin registros ni formularios largos. Del teléfono a la fecha cerrada.</p>
       </header>
 
       <ol class="steps">
@@ -153,7 +178,7 @@
     <div class="wrap contacto">
       <div class="contacto__text">
         <p class="eyebrow"><span class="eyebrow__rule"></span>Contacto</p>
-        <h2>Déjanos tu teléfono<br>y te llamamos</h2>
+        <h2>Déjanos tu teléfono<br><em>y te llamamos</em></h2>
         <p class="section__lead">Solo necesitamos dos datos. Te devolvemos la llamada dentro del horario de atención.</p>
         <ul class="contacto__meta">
           <li><strong>Zona</strong><span data-zone>Tu ciudad y alrededores</span></li>
@@ -185,8 +210,8 @@
         <div class="success" id="success" hidden>
           <span class="success__check" aria-hidden="true">
             <svg viewBox="0 0 96 96" width="96" height="96">
-              <circle class="success__ring" cx="48" cy="48" r="42" fill="none" stroke="#1d6b56" stroke-width="5"/>
-              <path class="success__tick" d="M30 49.5 42.5 62 67 37" fill="none" stroke="#1d6b56" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle class="success__ring" cx="48" cy="48" r="42" fill="none" stroke-width="5"/>
+              <path class="success__tick" d="M30 49.5 42.5 62 67 37" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </span>
           <p class="success__text">Datos completados. Ahora te llamamos.</p>
@@ -200,8 +225,10 @@
   <section class="section" id="faq">
     <div class="wrap faq">
       <header class="section__head section__head--tight">
-        <p class="eyebrow"><span class="eyebrow__rule"></span>Preguntas</p>
-        <h2>Dudas frecuentes</h2>
+        <div>
+          <p class="eyebrow"><span class="eyebrow__rule"></span>Preguntas</p>
+          <h2>Dudas <em>frecuentes</em></h2>
+        </div>
       </header>
 
       <div class="faq__list">
