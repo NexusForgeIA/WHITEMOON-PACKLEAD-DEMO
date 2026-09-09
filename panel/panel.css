@@ -112,6 +112,69 @@ button,input{font:inherit;color:inherit}
 .board__title{font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:200;letter-spacing:-.035em}
 .board__actions{display:flex;gap:10px;flex-wrap:wrap}
 
+/* ---------- agenda de llamadas ---------- */
+.agenda{
+  margin-bottom:26px;padding:22px 22px 20px;
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  background:linear-gradient(150deg,rgba(124,77,255,.07),rgba(0,212,170,.03));
+}
+.agenda__head{margin-bottom:16px}
+.agenda__head h2{
+  display:flex;align-items:center;
+  font-size:1.15rem;font-weight:400;letter-spacing:-.02em;
+}
+.agenda__note{margin-top:5px;font-size:.76rem;color:var(--muted)}
+
+.agenda__list{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.ag{
+  display:flex;align-items:center;gap:14px;
+  padding:11px 14px;border-radius:12px;
+  border:1px solid var(--border2);background:rgba(17,17,24,.6);
+  transition:border-color var(--t),background var(--t);
+}
+.ag:hover{border-color:var(--border);background:var(--card)}
+.ag__when{
+  display:flex;flex-direction:column;flex:none;min-width:74px;
+  line-height:1.2;
+}
+.ag__when b{
+  font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);
+}
+.ag__when span{
+  font-size:1.02rem;font-weight:500;color:var(--p2);
+  font-variant-numeric:tabular-nums;
+}
+.ag.is-past .ag__when span{color:var(--muted)}
+.ag__who{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;line-height:1.3}
+.ag__who b{
+  font-size:.9rem;font-weight:500;letter-spacing:-.02em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.ag__who span{
+  font-size:.72rem;color:var(--muted);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.ag__state{
+  flex:none;padding:2px 9px;border-radius:99px;
+  font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+}
+.ag__state--nuevo{background:rgba(124,77,255,.16);color:var(--p2)}
+.ag__state--contactado{background:rgba(157,112,255,.14);color:var(--p2)}
+.ag__state--cerrado{background:rgba(0,212,170,.14);color:var(--g)}
+.ag__go{
+  flex:none;padding:6px 12px;border-radius:8px;
+  border:1px solid var(--border2);background:none;color:var(--muted);
+  font-size:.72rem;
+  transition:border-color var(--t),color var(--t),background var(--t);
+}
+.ag__go:hover{border-color:var(--p);color:var(--text);background:rgba(124,77,255,.1)}
+.ag__empty{
+  grid-column:1/-1;
+  padding:20px 12px;border:1px dashed var(--border2);border-radius:12px;
+  text-align:center;font-size:.8rem;color:var(--muted);
+}
+
 .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
 .col{
   border:1px solid var(--border2);border-radius:var(--r-lg);
@@ -150,7 +213,19 @@ button,input{font:inherit;color:inherit}
   background:rgba(124,77,255,.13);color:var(--p2);font-size:.66rem;letter-spacing:.04em;
 }
 .card__tel{margin-bottom:12px;font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
+/* insignia de llamada programada */
+.card__when{
+  display:inline-block;margin-bottom:12px;padding:4px 10px;border-radius:8px;
+  background:rgba(124,77,255,.13);border:1px solid var(--border);
+  color:var(--p2);font-size:.74rem;font-weight:500;
+  font-variant-numeric:tabular-nums;
+}
+.card__when.is-past{
+  background:rgba(240,240,245,.05);border-color:var(--border2);color:var(--muted);
+}
+
 .card__nav{display:flex;gap:6px;border-top:1px solid var(--border2);padding-top:10px}
+.card__nav--sched{border-top:0;padding-top:6px}
 .card__btn{
   flex:1;padding:6px 0;border-radius:8px;border:1px solid var(--border2);
   background:none;color:var(--muted);font-size:.72rem;
@@ -158,6 +233,34 @@ button,input{font:inherit;color:inherit}
 }
 .card__btn:hover:not(:disabled){border-color:var(--p);color:var(--text);background:rgba(124,77,255,.08)}
 .card__btn:disabled{opacity:.28}
+.card__btn--go{border-color:var(--border);color:var(--p2)}
+
+/* selector de fecha y hora dentro de la ficha */
+.sched{margin-top:8px;display:grid;gap:8px}
+.sched__row{display:grid;grid-template-columns:1.35fr 1fr;gap:6px}
+.sched__in{
+  width:100%;min-width:0;padding:7px 9px;border-radius:8px;
+  border:1px solid var(--border2);background:var(--bg2);color:var(--text);
+  font-size:.76rem;font-family:inherit;
+  transition:border-color var(--t);
+}
+.sched__in:focus{outline:none;border-color:var(--p)}
+/* el icono nativo del selector es oscuro sobre fondo oscuro */
+.sched__in::-webkit-calendar-picker-indicator{filter:invert(1);opacity:.45;cursor:pointer}
+.sched__in::-webkit-calendar-picker-indicator:hover{opacity:.8}
+.sched__acts{display:flex;gap:6px}
+.sched__err{font-size:.7rem;color:#ff8a8a}
+
+/* ficha resaltada desde la agenda */
+.card.is-target{
+  border-color:var(--p);
+  animation:target 2.2s cubic-bezier(.4,0,.2,1);
+}
+@keyframes target{
+  0%{box-shadow:0 0 0 0 rgba(124,77,255,.55)}
+  30%{box-shadow:0 0 0 7px rgba(124,77,255,0)}
+  100%{box-shadow:0 0 0 0 rgba(124,77,255,0)}
+}
 .card__new{
   position:absolute;top:-6px;right:12px;padding:2px 8px;border-radius:99px;
   background:var(--g);color:#04120e;font-size:.58rem;font-weight:700;letter-spacing:.1em;
@@ -175,6 +278,7 @@ button,input{font:inherit;color:inherit}
 @media (max-width:900px){
   .cols{grid-template-columns:1fr;gap:14px}
   .col__body{min-height:0}
+  .agenda__list{grid-template-columns:1fr}
 }
 @media (max-width:600px){
   .board{padding-top:40px}
@@ -182,6 +286,23 @@ button,input{font:inherit;color:inherit}
   .board__actions{width:100%}
   .board__actions .btn{flex:1;justify-content:center;font-size:.78rem;padding:10px 12px}
   .gate__card{padding:28px 22px 24px}
+  .agenda{padding:18px 16px 16px}
+  /* dos filas fijas: arriba cuándo y quién, abajo estado y acción.
+     Con flex, el chip de estado empujaba el botón y dejaba un hueco. */
+  .ag{
+    display:grid;align-items:center;
+    grid-template-columns:auto 1fr;
+    grid-template-areas:'when who' 'state go';
+    gap:9px 12px;
+  }
+  .ag__when{grid-area:when;min-width:68px}
+  .ag__who{grid-area:who}
+  .ag__state{grid-area:state;justify-self:start}
+  .ag__go{grid-area:go;justify-self:end}
+}
+@media (max-width:380px){
+  .sched__row{grid-template-columns:1fr}
+  .ag__when{min-width:64px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
