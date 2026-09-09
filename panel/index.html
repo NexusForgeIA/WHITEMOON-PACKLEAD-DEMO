@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Panel de leads — DEMO</title>
+<meta name="description" content="Panel de demostración con leads ficticios. No indexar.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23111118'/%3E%3Crect x='7' y='9' width='5' height='14' rx='1.6' fill='%237c4dff'/%3E%3Crect x='14' y='9' width='5' height='10' rx='1.6' fill='%239d70ff'/%3E%3Crect x='21' y='9' width='5' height='7' rx='1.6' fill='%2300d4aa'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+
+<!-- ============ LOGIN COSMÉTICO ============ -->
+<div class="gate" id="gate">
+  <form class="gate__card" id="gateForm" autocomplete="off">
+    <p class="gate__badge">DEMO · sin autenticación real</p>
+    <h1>Panel de leads</h1>
+    <p class="gate__intro">
+      Acceso de ejemplo. Este panel no guarda ni consulta datos reales:
+      todas las fichas son ficticias y viven solo en esta pestaña.
+    </p>
+
+    <label class="field">
+      <span>Usuario</span>
+      <input type="text" id="gateUser" value="usuario" spellcheck="false">
+    </label>
+    <label class="field">
+      <span>Contraseña</span>
+      <input type="password" id="gatePass" value="demo">
+    </label>
+
+    <button class="btn btn--solid btn--block" type="submit">Entrar</button>
+    <p class="gate__hint">Credenciales precargadas: <code>usuario</code> / <code>demo</code></p>
+  </form>
+</div>
+
+<!-- ============ TABLERO ============ -->
+<main class="board" id="board" hidden>
+  <header class="board__head">
+    <div>
+      <p class="eyebrow"><span class="eyebrow__dot"></span>Panel demo · datos ficticios</p>
+      <h1 class="board__title">Seguimiento de leads</h1>
+    </div>
+    <div class="board__actions">
+      <button class="btn btn--line" id="btnNuevo" type="button">Simular nuevo lead</button>
+      <button class="btn btn--ghost" id="btnReset" type="button">Reiniciar demo</button>
+    </div>
+  </header>
+
+  <div class="cols">
+    <section class="col" data-col="nuevo">
+      <header class="col__head">
+        <h2>Nuevo <span class="pill" data-count-nuevo>0</span></h2>
+        <span class="col__bar col__bar--nuevo"></span>
+      </header>
+      <div class="col__body" data-drop="nuevo"></div>
+    </section>
+
+    <section class="col" data-col="contactado">
+      <header class="col__head">
+        <h2>Contactado <span class="pill" data-count-contactado>0</span></h2>
+        <span class="col__bar col__bar--contactado"></span>
+      </header>
+      <div class="col__body" data-drop="contactado"></div>
+    </section>
+
+    <section class="col" data-col="cerrado">
+      <header class="col__head">
+        <h2>Cerrado <span class="pill" data-count-cerrado>0</span></h2>
+        <span class="col__bar col__bar--cerrado"></span>
+      </header>
+      <div class="col__body" data-drop="cerrado"></div>
+    </section>
+  </div>
+
+  <p class="board__foot">
+    Arrastra una ficha entre columnas o usa las flechas de cada tarjeta.
+    Nombres y teléfonos inventados. Demo · WhiteMoon
+  </p>
+</main>
+
+<script src="panel.js"></script>
+</body>
+</html>
