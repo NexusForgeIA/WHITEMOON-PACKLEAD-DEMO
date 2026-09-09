@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Tu Negocio Local — Demo Pack Lead</title>
+<meta name="description" content="Demostracion comercial del Pack Lead: landing, chatbot de captacion guiado y panel de seguimiento de leads. Datos ficticios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="cursor" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor cursor--ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" data-view="landing">
+    <span class="brand__mark" data-brand-mark>TN</span>
+    <span class="brand__name" data-brand-name>Tu Negocio Local</span>
+  </a>
+
+  <nav class="nav__links" aria-label="Secciones">
+    <a href="#inicio" data-view="landing">Inicio</a>
+    <a href="#servicios" data-view="landing">Servicios</a>
+    <a href="#contacto" data-view="landing">Contacto</a>
+  </nav>
+
+  <div class="nav__actions">
+    <button class="btn btn--ghost" data-view="pipeline" type="button">
+      Panel de leads
+      <span class="pill" data-count-total>0</span>
+    </button>
+    <button class="btn btn--solid" data-chat-open type="button">Escríbenos</button>
+  </div>
+</header>
+
+<!-- ============ VISTA LANDING ============ -->
+<main class="view is-active" id="view-landing">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <span class="hero__ghost" aria-hidden="true">LEADS</span>
+    <div class="hero__grid">
+
+      <div class="hero__main">
+        <p class="eyebrow"><span class="eyebrow__dot"></span>Negocio local · Demostración</p>
+        <h1 class="hero__title">
+          Cada <span class="rot" data-rotate>consulta</span><br>
+          termina en una <em>ficha</em><br>
+          de contacto.
+        </h1>
+        <p class="hero__lead">
+          Una web que capta, un chatbot guiado que hace las preguntas correctas
+          y un panel donde ves todos los contactos ordenados por estado.
+          Nada se queda en un mensaje sin leer.
+        </p>
+        <div class="hero__cta">
+          <button class="btn btn--solid btn--lg" data-chat-open type="button">Probar el chatbot</button>
+          <a class="btn btn--line btn--lg" href="https://wa.me/34600000000?text=Hola%2C%20quiero%20informaci%C3%B3n" target="_blank" rel="noopener">
+            WhatsApp<span class="btn__note">número de ejemplo</span>
+          </a>
+        </div>
+        <ul class="hero__meta">
+          <li><span>01</span>Landing que convierte</li>
+          <li><span>02</span>Chatbot guiado de captación</li>
+          <li><span>03</span>Panel de seguimiento</li>
+        </ul>
+      </div>
+
+      <aside class="hero__aside" aria-hidden="true">
+        <div class="device">
+          <div class="device__bar">
+            <span class="device__dot"></span>
+            <span class="device__title">Asistente de contacto</span>
+          </div>
+          <div class="device__body">
+            <p class="bub bub--bot">Hola, ¿en qué te ayudamos?</p>
+            <p class="bub bub--user">Servicio 2</p>
+            <p class="bub bub--bot">¿Cómo te llamas?</p>
+            <p class="bub bub--user">Marta Ejemplo</p>
+            <p class="bub bub--bot">Gracias, te contactamos hoy mismo.</p>
+          </div>
+        </div>
+        <div class="floatcard">
+          <span class="floatcard__tag">Nuevo</span>
+          <strong>Marta Ejemplo</strong>
+          <span class="floatcard__meta">Servicio 2 · 600 000 002</span>
+          <span class="floatcard__line"></span>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <!-- FLUJO -->
+  <section class="flow">
+    <header class="flow__head">
+      <h2 class="h2">De la visita a la ficha, en tres pasos</h2>
+      <p class="muted">Todo ocurre en la misma página. El prospecto no rellena formularios largos.</p>
+    </header>
+    <ol class="flow__steps">
+      <li class="step" data-reveal style="--i:0">
+        <span class="step__num">01</span>
+        <h3>Entra en la web</h3>
+        <p>Llega desde búsquedas locales, redes o un enlace directo y entiende qué haces en cinco segundos.</p>
+      </li>
+      <li class="step" data-reveal style="--i:1">
+        <span class="step__num">02</span>
+        <h3>Habla con el chatbot</h3>
+        <p>Un guion fijo de tres preguntas: qué necesita, cómo se llama y un teléfono. Sin campos vacíos.</p>
+      </li>
+      <li class="step" data-reveal style="--i:2">
+        <span class="step__num">03</span>
+        <h3>Aparece en tu panel</h3>
+        <p>La ficha entra en la columna «Nuevo» y salta un aviso en el móvil para que respondas pronto.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="servicios" id="servicios">
+    <header class="sec__head">
+      <p class="eyebrow"><span class="eyebrow__dot"></span>Servicios</p>
+      <h2 class="h2">Tres cosas que hacemos<br>y una sola forma de pedirlas.</h2>
+    </header>
+
+    <div class="serv__grid">
+      <article class="serv serv--lead" data-reveal style="--i:0">
+        <span class="serv__idx">01</span>
+        <h3 data-svc="1">Servicio 1</h3>
+        <p>Descripción breve del primer servicio. Sustituye este texto por lo que realmente ofreces: qué incluye, para quién es y en cuánto tiempo lo resuelves.</p>
+        <ul class="serv__list">
+          <li>Punto de valor uno</li>
+          <li>Punto de valor dos</li>
+          <li>Punto de valor tres</li>
+        </ul>
+        <button class="btn btn--line" data-chat-open data-chat-service="1" type="button">Pedir información</button>
+      </article>
+
+      <article class="serv" data-reveal style="--i:1">
+        <span class="serv__idx">02</span>
+        <h3 data-svc="2">Servicio 2</h3>
+        <p>Descripción breve del segundo servicio. Una o dos frases claras, sin tecnicismos.</p>
+        <button class="btn btn--line" data-chat-open data-chat-service="2" type="button">Pedir información</button>
+      </article>
+
+      <article class="serv" data-reveal style="--i:2">
+        <span class="serv__idx">03</span>
+        <h3 data-svc="3">Servicio 3</h3>
+        <p>Descripción breve del tercer servicio. Termina siempre con una acción concreta.</p>
+        <button class="btn btn--line" data-chat-open data-chat-service="3" type="button">Pedir información</button>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTADORES DEL PANEL DEMO -->
+  <section class="stats">
+    <div class="stats__inner">
+      <p class="stats__label">Panel de esta demo · fichas ficticias</p>
+      <div class="stats__row">
+        <div class="stat" data-reveal style="--i:0">
+          <span class="stat__n" data-count-total>0</span>
+          <span class="stat__k">fichas en el panel</span>
+        </div>
+        <div class="stat" data-reveal style="--i:1">
+          <span class="stat__n" data-count-nuevo>0</span>
+          <span class="stat__k">en «Nuevo»</span>
+        </div>
+        <div class="stat" data-reveal style="--i:2">
+          <span class="stat__n" data-count-contactado>0</span>
+          <span class="stat__k">contactadas</span>
+        </div>
+        <div class="stat" data-reveal style="--i:3">
+          <span class="stat__n" data-count-cerrado>0</span>
+          <span class="stat__k">cerradas</span>
+        </div>
+      </div>
+      <button class="btn btn--ghost" data-view="pipeline" type="button">Abrir el panel</button>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contacto" id="contacto">
+    <div class="contacto__left" data-reveal style="--i:0">
+      <p class="eyebrow"><span class="eyebrow__dot"></span>Contacto</p>
+      <h2 class="h2">Dinos qué necesitas<br>y te escribimos.</h2>
+      <p class="muted">Elige el canal que prefieras. Los dos terminan en la misma ficha dentro del panel.</p>
+      <dl class="contacto__dl">
+        <div><dt>Zona</dt><dd>Tu ciudad y alrededores</dd></div>
+        <div><dt>Horario</dt><dd>Lunes a viernes, 9:00 – 19:00</dd></div>
+        <div><dt>Teléfono</dt><dd>600 000 000 <span class="tag">ejemplo</span></dd></div>
+      </dl>
+    </div>
+
+    <div class="contacto__right" data-reveal style="--i:1">
+      <div class="ccard">
+        <h3>Chatbot de captación</h3>
+        <p>Tres preguntas guiadas. Treinta segundos. Sin formularios largos.</p>
+        <button class="btn btn--solid btn--block" data-chat-open type="button">Empezar</button>
+      </div>
+      <div class="ccard ccard--alt">
+        <h3>WhatsApp</h3>
+        <p>Para respuestas rápidas dentro del horario de atención.</p>
+        <a class="btn btn--line btn--block" href="https://wa.me/34600000000?text=Hola%2C%20quiero%20informaci%C3%B3n" target="_blank" rel="noopener">Abrir chat<span class="tag">número de ejemplo</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="foot__l">
+      <span class="brand__mark" data-brand-mark>TN</span>
+      <div>
+        <strong data-brand-name>Tu Negocio Local</strong>
+        <p class="muted">Marca genérica de demostración, sustituible por la del cliente.</p>
+      </div>
+    </div>
+    <p class="foot__r">Demo · WhiteMoon</p>
+  </footer>
+
+</main>
+
+<!-- ============ VISTA PIPELINE ============ -->
+<section class="view" id="view-pipeline" aria-label="Panel de leads">
+
+  <div class="gate" id="gate">
+    <form class="gate__card" id="gateForm" autocomplete="off">
+      <p class="gate__badge">DEMO · sin autenticación real</p>
+      <h2>Panel de leads</h2>
+      <p class="muted">Acceso de ejemplo. Este panel no guarda ni consulta datos reales: todas las fichas son ficticias y viven solo en esta pestaña.</p>
+      <label class="field">
+        <span>Usuario</span>
+        <input type="text" id="gateUser" value="usuario" spellcheck="false">
+      </label>
+      <label class="field">
+        <span>Contraseña</span>
+        <input type="password" id="gatePass" value="demo">
+      </label>
+      <button class="btn btn--solid btn--block" type="submit">Entrar</button>
+      <p class="gate__hint">Credenciales precargadas: <code>usuario</code> / <code>demo</code></p>
+    </form>
+  </div>
+
+  <div class="board" id="board" hidden>
+    <header class="board__head">
+      <div>
+        <p class="eyebrow"><span class="eyebrow__dot"></span>Panel demo · datos ficticios</p>
+        <h2 class="h2">Seguimiento de leads</h2>
+      </div>
+      <div class="board__actions">
+        <button class="btn btn--ghost" data-view="landing" type="button">Volver a la web</button>
+        <button class="btn btn--line" id="btnReset" type="button">Reiniciar demo</button>
+        <button class="btn btn--solid" data-chat-open type="button">Simular nuevo lead</button>
+      </div>
+    </header>
+
+    <div class="cols">
+      <section class="col" data-col="nuevo">
+        <header class="col__head">
+          <h3>Nuevo <span class="pill" data-count-nuevo>0</span></h3>
+          <span class="col__bar col__bar--nuevo"></span>
+        </header>
+        <div class="col__body" data-drop="nuevo"></div>
+      </section>
+
+      <section class="col" data-col="contactado">
+        <header class="col__head">
+          <h3>Contactado <span class="pill" data-count-contactado>0</span></h3>
+          <span class="col__bar col__bar--contactado"></span>
+        </header>
+        <div class="col__body" data-drop="contactado"></div>
+      </section>
+
+      <section class="col" data-col="cerrado">
+        <header class="col__head">
+          <h3>Cerrado <span class="pill" data-count-cerrado>0</span></h3>
+          <span class="col__bar col__bar--cerrado"></span>
+        </header>
+        <div class="col__body" data-drop="cerrado"></div>
+      </section>
+    </div>
+
+    <p class="board__foot">Arrastra una ficha entre columnas o usa las flechas de cada tarjeta. Demo · WhiteMoon</p>
+  </div>
+</section>
+
+<!-- ============ CHATBOT ============ -->
+<button class="launcher" id="launcher" type="button" aria-label="Abrir chat de contacto">
+  <span class="launcher__ico" aria-hidden="true"></span>
+  <span class="launcher__txt">Escríbenos</span>
+</button>
+
+<div class="chat" id="chat" role="dialog" aria-label="Chat de contacto" hidden>
+  <header class="chat__head">
+    <span class="brand__mark brand__mark--sm" data-brand-mark>TN</span>
+    <div class="chat__id">
+      <strong data-brand-name>Tu Negocio Local</strong>
+      <span>Asistente de contacto</span>
+    </div>
+    <button class="chat__x" id="chatClose" type="button" aria-label="Cerrar chat">&times;</button>
+  </header>
+
+  <div class="chat__log" id="chatLog" aria-live="polite"></div>
+  <div class="chat__foot" id="chatFoot"></div>
+  <p class="chat__legal">Demostración. Nada de lo que escribas se envía a ningún sitio.</p>
+</div>
+
+<!-- Aviso tipo notificación de móvil -->
+<div class="toast" id="toast" role="status" aria-live="polite" hidden>
+  <span class="toast__ico" data-brand-mark>TN</span>
+  <div class="toast__body">
+    <div class="toast__top">
+      <strong data-brand-name>Tu Negocio Local</strong>
+      <span>ahora</span>
+    </div>
+    <p id="toastText">Nuevo lead</p>
+    <span class="toast__tag">aviso de ejemplo</span>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
