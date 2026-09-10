@@ -57,13 +57,39 @@ Las citas pasadas se ven en gris, tanto en la insignia como en la agenda.
 recordatorios: las citas viven en memoria como el resto del panel y se pierden
 al recargar. «Reiniciar demo» las devuelve al estado inicial.
 
+### Pedir reseña
+
+Cada ficha lleva un botón **«Pedir reseña»**, en verde y **destacado cuando el
+lead está en Cerrado**, que es cuando toca pedirla. En Nuevo y Contactado está
+igual pero discreto.
+
+Al pulsarlo abre en una pestaña nueva un `wa.me` con el mensaje ya redactado:
+
+> Hola *[nombre del lead]*, soy *[marca]*. Gracias por confiar en nosotros.
+> Si te ha ido bien, ¿nos dejas una reseña en Google? Nos ayuda muchísimo:
+> *[enlace de reseña]*
+
+La ficha queda marcada con la insignia `Reseña pedida ✓` y el botón pasa a
+**«Reenviar reseña»**.
+
+**Es semi-manual a propósito.** El panel prepara el mensaje; lo envía el dueño
+desde su WhatsApp. No hay envío automático, ni API de WhatsApp, ni IA, ni
+backend: la marca vive en memoria y se pierde al recargar, como el resto.
+
+Tampoco hay **filtrado ni incentivo**: se pide igual a todo el mundo y la
+reseña no se condiciona a que sea buena ni se paga con nada.
+
+El número (`34600000000`) y el enlace (`CONFIG.reviewLink`) son los **de
+ejemplo** de la demo y no llevan a ningún negocio real.
+
 ## Estructura
 
 | Archivo | Contenido |
 |---|---|
 | `index.html` | Landing completa |
+| `assets/config.js` | `CONFIG`: marca, contactos, servicios y enlace de reseña. Lo cargan la landing y el panel |
 | `assets/styles.css` | Design system claro, responsive 900 / 620 px |
-| `assets/app.js` | `CONFIG`, validación del formulario, reveal, acordeón |
+| `assets/app.js` | Validación del formulario, reveal, acordeón |
 | `assets/img/*` | Fotos en WebP con fallback JPG (ver créditos abajo) |
 | `panel/index.html` | Login cosmético + tablero |
 | `panel/panel.css` | Design system dark del panel |
@@ -73,8 +99,11 @@ al recargar. «Reiniciar demo» las devuelve al estado inicial.
 
 ## Reskin por sector (al vender)
 
-1. **`assets/app.js` → `CONFIG`**: nombre de marca, zona, horario, teléfono,
-   WhatsApp y los tres servicios.
+1. **`assets/config.js` → `CONFIG`**: nombre de marca, zona, horario, teléfono,
+   WhatsApp, enlace de reseña y los tres servicios. Es el único archivo con
+   datos del negocio: lo comparten la landing y el panel.
+   El `reviewLink` sale del botón «Pedir reseñas» de la ficha de Google
+   Business Profile del negocio.
 2. **`assets/styles.css` → `:root`**: los tokens de color y la fuente.
 3. **`assets/img/`**: sustituye las fotos por las del negocio real, en las
    mismas proporciones (4/3 en las tarjetas, 9/10 en el hero) y manteniendo
@@ -103,7 +132,8 @@ para reemplazar.
 - El formulario pide **solo nombre y teléfono**. No hay pasos, ni selector de
   servicio, ni envío real.
 - El enlace de WhatsApp es un `wa.me` con número de ejemplo, etiquetado como
-  tal en la página.
+  tal en la página. El de «Pedir reseña» usa ese mismo número y un enlace de
+  reseña de ejemplo, etiquetados en el pie del panel.
 - Ambas páginas llevan `noindex` en el `<meta>` y quedan cubiertas por el
   `robots.txt`.
 

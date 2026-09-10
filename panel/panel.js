@@ -4,9 +4,13 @@
    El estado vive en memoria y se pierde al recargar.
    Nombres, teléfonos y llamadas programadas inventados.
    La agenda no avisa a nadie: no hay calendario ni recordatorios.
+   «Pedir reseña» no envía nada: abre WhatsApp con el mensaje
+   escrito para que lo mande el dueño a mano. Sin IA, sin API.
    ============================================================ */
 
-const SERVICES = ['Servicio 1', 'Servicio 2', 'Servicio 3'];
+/* CONFIG vive en assets/config.js (cargado antes que este archivo):
+   marca, WhatsApp y enlace de reseña, todos de ejemplo. */
+const SERVICES = CONFIG.services;
 
 /* Fichas de ejemplo.
    `cita` = [días desde hoy, hora, minuto], o un número = horas desde ahora
@@ -113,6 +117,7 @@ function seedLeads() {
       ...resto,
       id: 'l' + (++uid),
       fresh: false,
+      reviewAsked: false,
       when: !cita ? null
           : typeof cita === 'number' ? enHorasISO(cita)
           : offsetISO(cita[0], cita[1], cita[2])
@@ -129,6 +134,7 @@ function addLead() {
     time: 'Hoy ' + new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }),
     status: 'nuevo',
     fresh: true,
+    reviewAsked: false,
     when: null
   });
   render();
@@ -157,6 +163,25 @@ function setWhen(id, iso) {
   if (!lead) return;
   lead.when = iso;
   editingId = null;
+  render();
+}
+
+/* Abre WhatsApp con la petición de reseña ya escrita.
+   Semi-manual a propósito: el mensaje lo envía el dueño desde su
+   WhatsApp. No hay envío automático, ni API, ni backend.
+   El número y el enlace de reseña son los de ejemplo de CONFIG. */
+function reviewURL(lead) {
+  const texto = 'Hola ' + lead.name + ', soy ' + CONFIG.brand + '. ' +
+    'Gracias por confiar en nosotros. Si te ha ido bien, ' +
+    '¿nos dejas una reseña en Google? Nos ayuda muchísimo: ' + CONFIG.reviewLink;
+  return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(texto);
+}
+
+function askReview(id) {
+  const lead = leads.find(l => l.id === id);
+  if (!lead) return;
+  window.open(reviewURL(lead), '_blank', 'noopener');
+  lead.reviewAsked = true;   /* solo en memoria, como el resto de la demo */
   render();
 }
 
@@ -259,14 +284,24 @@ function buildCard(lead) {
 
   card.append(top, svc, tel);
 
-  /* insignia de la llamada programada */
+  /* insignias: llamada programada y reseña pedida */
+  const badges = document.createElement('div');
+  badges.className = 'card__badges';
+
   if (lead.when) {
     const { dia, hora, pasada } = whenParts(lead.when);
     const cita = document.createElement('p');
     cita.className = 'card__when' + (pasada ? ' is-past' : '');
     cita.textContent = 'Llamada · ' + dia + ' ' + hora;
-    card.appendChild(cita);
+    badges.appendChild(cita);
   }
+  if (lead.reviewAsked) {
+    const rev = document.createElement('p');
+    rev.className = 'card__rev';
+    rev.textContent = 'Reseña pedida ✓';
+    badges.appendChild(rev);
+  }
+  if (badges.children.length) card.appendChild(badges);
 
   /* mover entre columnas */
   const nav = document.createElement('div');
@@ -314,6 +349,22 @@ function buildCard(lead) {
 
     card.appendChild(fila);
   }
+
+  /* pedir reseña — destacado cuando el lead ya está cerrado,
+     que es cuando toca pedirla */
+  const cerrado = lead.status === 'cerrado';
+  const filaRev = document.createElement('div');
+  filaRev.className = 'card__nav card__nav--sched';
+
+  const resena = document.createElement('button');
+  resena.type = 'button';
+  resena.className = 'card__btn' + (cerrado ? ' card__btn--rev' : '');
+  resena.textContent = lead.reviewAsked ? 'Reenviar reseña' : 'Pedir reseña';
+  resena.title = 'Abre WhatsApp con el mensaje escrito. Lo envías tú.';
+  resena.addEventListener('click', () => askReview(lead.id));
+
+  filaRev.appendChild(resena);
+  card.appendChild(filaRev);
 
   card.addEventListener('dragstart', ev => {
     ev.dataTransfer.setData('text/plain', lead.id);
