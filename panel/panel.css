@@ -213,15 +213,24 @@ button,input{font:inherit;color:inherit}
   background:rgba(124,77,255,.13);color:var(--p2);font-size:.66rem;letter-spacing:.04em;
 }
 .card__tel{margin-bottom:12px;font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
-/* insignia de llamada programada */
+/* insignias de la ficha: llamada programada y reseña pedida */
+.card__badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.card__when,
+.card__rev{
+  padding:4px 10px;border-radius:8px;
+  font-size:.74rem;font-weight:500;
+}
 .card__when{
-  display:inline-block;margin-bottom:12px;padding:4px 10px;border-radius:8px;
   background:rgba(124,77,255,.13);border:1px solid var(--border);
-  color:var(--p2);font-size:.74rem;font-weight:500;
-  font-variant-numeric:tabular-nums;
+  color:var(--p2);font-variant-numeric:tabular-nums;
 }
 .card__when.is-past{
   background:rgba(240,240,245,.05);border-color:var(--border2);color:var(--muted);
+}
+/* verde: la reseña es resultado conseguido, no acción pendiente */
+.card__rev{
+  background:rgba(0,212,170,.12);border:1px solid rgba(0,212,170,.3);
+  color:var(--g);
 }
 
 .card__nav{display:flex;gap:6px;border-top:1px solid var(--border2);padding-top:10px}
@@ -234,6 +243,13 @@ button,input{font:inherit;color:inherit}
 .card__btn:hover:not(:disabled){border-color:var(--p);color:var(--text);background:rgba(124,77,255,.08)}
 .card__btn:disabled{opacity:.28}
 .card__btn--go{border-color:var(--border);color:var(--p2)}
+/* pedir reseña, destacado en la columna Cerrado */
+.card__btn--rev{
+  border-color:rgba(0,212,170,.34);background:rgba(0,212,170,.08);color:var(--g);
+}
+.card__btn--rev:hover:not(:disabled){
+  border-color:var(--g);background:rgba(0,212,170,.16);color:#d9fff5;
+}
 
 /* selector de fecha y hora dentro de la ficha */
 .sched{margin-top:8px;display:grid;gap:8px}

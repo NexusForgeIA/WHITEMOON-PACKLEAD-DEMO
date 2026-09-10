@@ -2,19 +2,10 @@
    Pack Lead — landing de demostración · WhiteMoon
    TODO ES MOCK: el formulario no envía nada a ningún sitio.
 
-   RESKIN POR SECTOR: toca solo CONFIG y los tokens de :root
+   RESKIN POR SECTOR: toca solo CONFIG (en assets/config.js,
+   que se carga antes que este archivo) y los tokens de :root
    en assets/styles.css.
    ============================================================ */
-
-const CONFIG = {
-  brand: 'Tu Negocio Local',
-  zone: 'Tu ciudad y alrededores',
-  hours: 'Lunes a viernes, 9:00 – 19:00',
-  phone: '600 000 000',              // número de ejemplo
-  whatsapp: '34600000000',           // número de ejemplo
-  whatsappText: 'Hola, quiero información',
-  services: ['Servicio 1', 'Servicio 2', 'Servicio 3']
-};
 
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
